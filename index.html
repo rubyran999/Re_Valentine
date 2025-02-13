@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine's Day</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #ff6f61;
+            margin-bottom: 20px;
+        }
+        .pigeon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            cursor: pointer;
+            z-index: 3;
+            transition: top 1s ease-in-out, opacity 1s ease-in-out;
+        }
+        .pigeon img {
+            width: 100%;
+        }
+        .photo-gallery {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            margin: 20px 0;
+        }
+        .photo-item {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .photo-item.active {
+            opacity: 1;
+        }
+        .photo-item img {
+            max-width: 100%;
+            max-height: 80%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        .photo-description {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #555;
+            opacity: 0;
+            text-align: center;
+            /* 移除 nowrap 和 overflow: hidden */
+            white-space: normal; /* 允许换行 */
+            overflow-wrap: break-word; /* 长单词或 URL 自动换行 */
+            word-wrap: break-word; /* 兼容性更好的写法 */
+            max-width: 100%; /* 确保描述不超过照片宽度 */
+            padding: 0 10px; /* 添加内边距，避免文字贴边 */
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #ff6f61; }
+        }
+        .envelope {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 100px;
+            cursor: pointer;
+            z-index: 3;
+            opacity: 0;
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
+        .envelope.active {
+            transform: translate(-50%, -50%) scale(1.2);
+            opacity: 1;
+        }
+        .envelope img {
+            width: 100%;
+        }
+        .letter-container {
+            display: none;
+            position: absolute;
+            top: 120px; /* 位于标题下方 */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 900px;
+            height: 400px; /* 信纸高度 */
+            overflow-y: scroll; /* 允许滚动 */
+            z-index: 4;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+        }
+        /* 隐藏 WebKit 浏览器的滚动条 */
+        .letter-container::-webkit-scrollbar {
+            display: none;
+        }
+        .letter {
+            padding: 20px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+        .heart {
+            position: absolute;
+            font-size: 3rem;
+            color: red;
+            opacity: 0.6; /* 降低整体透明度 */
+            animation: heart-pop 3s ease-out forwards;
+        }
+        @keyframes heart-pop {
+            0% {
+                transform: scale(0);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+        /* 雪花样式 */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            font-size: 1.5rem;
+            color: white;
+            opacity: 0.8;
+            pointer-events: none;
+            animation: snow-fall linear infinite;
+        }
+        @keyframes snow-fall {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(calc(100vh + 10px));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Happy Valentine's Day!</h1>
+        <div class="pigeon" onclick="startAnimation()">
+            <img src="pigeon.png" alt="信鸽">
+        </div>
+        <div class="photo-gallery">
+ <!-- Photo Section -->
+<div class="photo-item">
+    <img src="photo1 (2).jpg" alt="Photo 1">
+    <div class="photo-description">Finally, I made it, and you're no longer just on the screen.</div>
+</div>
+<div class="photo-item">
+    <img src="photo1 (1).jpg" alt="Photo 2">
+    <div class="photo-description">Couldn't believe I'm here, where you are...</div>
+</div>
+<div class="photo-item">
+    <img src="photo1 (0).jpg" alt="Photo 3">
+    <div class="photo-description">You're in my hand, by my side.</div>
+</div>
+<div class="photo-item">
+    <img src="photo1 (3).jpg" alt="Photo 4">
+    <div class="photo-description">Went to the same place, but not alone anymore. Please remember, I'll always be with you.</div>
+</div>
+<div class="photo-item">
+    <img src="photo1 (4).jpg" alt="Photo 5">
+    <div class="photo-description">It has become my favorite place—filled with warmth, love, and you.</div>
+</div>
+<div class="photo-item">
+    <img src="photo1 (5).jpg" alt="Photo 6">
+    <div class="photo-description">Thank you for buying this for me. It softened both my body and heart.</div>
+</div>
+<div class="photo-item">
+    <img src="photo2 (1).jpg" alt="Photo 7">
+    <div class="photo-description">You were so busy. 🤣</div>
+</div>
+<div class="photo-item">
+    <img src="photo2 (2).jpg" alt="Photo 8">
+    <div class="photo-description">I love your gift, and yes, I want more like this.</div>
+</div>
+<div class="photo-item">
+    <img src="photo2 (3).jpg" alt="Photo 9">
+    <div class="photo-description">The first breakfast you made for me... I burnt it...😔</div>
+</div>
+<div class="photo-item">
+    <img src="photo2 (4).jpg" alt="Photo 10">
+    <div class="photo-description">I always enjoy breakfast time with you.</div>
+</div>
+<div class="photo-item">
+    <img src="photo2 (5).jpg" alt="Photo 11">
+    <div class="photo-description">I want to make breakfast for you too.</div>
+</div>
+<div class="photo-item">
+    <img src="photo2 (6).jpg" alt="Photo 12">
+    <div class="photo-description">Just chilling. I really enjoy watching funny things with you.</div>
+</div>
+<div class="photo-item">
+    <img src="photo2 (7).jpg" alt="Photo 13">
+    <div class="photo-description">One of the most romantic things to me—shopping in the supermarket together.</div>
+</div>
+<div class="photo-item">
+    <img src="photo2 (8).jpg" alt="Photo 14">
+    <div class="photo-description">You were so tired. I wish I could let you rest in my arms.</div>
+</div>
+<div class="photo-item">
+    <img src="photo2 (9).jpg" alt="Photo 15">
+    <div class="photo-description">This gave us so much fun and laughter.</div>
+</div>
+<div class="photo-item">
+    <img src="吃 (1).jpg" alt="Photo 16">
+    <div class="photo-description">You were right. That was too much.</div>
+</div>
+<div class="photo-item">
+    <img src="吃 (2).jpg" alt="Photo 17">
+    <div class="photo-description">Run! Forrest, run! Don't come in! 😨</div>
+</div>
+<div class="photo-item">
+    <img src="吃 (3).jpg" alt="Photo 18">
+    <div class="photo-description">I love this! Another reason to love your place! 🤤</div>
+</div>
+<div class="photo-item">
+    <img src="吃 (4).jpg" alt="Photo 19">
+    <div class="photo-description">Yum yum yum! 😋</div>
+</div>
+<div class="photo-item">
+    <img src="吃 (5).jpg" alt="Photo 20">
+    <div class="photo-description">The unknown cheese—kind of like a biochemical weapon. ☠️</div>
+</div>
+<div class="photo-item">
+    <img src="吃 (6).jpg" alt="Photo 21">
+    <div class="photo-description">Fire makes udon noodles great again! 💪</div>
+</div>
+<div class="photo-item">
+    <img src="吃 (7).jpg" alt="Photo 22">
+    <div class="photo-description">I can't explain why, but this is the best 🍕 I've ever had.</div>
+</div>
+<div class="photo-item">
+    <img src="吃 (8).jpg" alt="Photo 23">
+    <div class="photo-description">To be honest, I tried the stuffed wings in grade 9. The pho were nice!</div>
+</div>
+<div class="photo-item">
+    <img src="吃 (9).jpg" alt="Photo 24">
+    <div class="photo-description">A tough battle. Nearly destroyed all the enemies.</div>
+</div>
+<div class="photo-item">
+    <img src="吃 (10).jpg" alt="Photo 25">
+    <div class="photo-description">Breakfast time! I think I prefer my food a little less wet.</div>
+</div>
+<div class="photo-item">
+    <img src="吃 (11).jpg" alt="Photo 26">
+    <div class="photo-description">Junk food feast! We even finished all the fries!</div>
+</div>
+<div class="photo-item">
+    <img src="吃 (12).jpg" alt="Photo 27">
+    <div class="photo-description">Last breakfast together. It was much better than last time.</div>
+</div>
+<div class="photo-item">
+    <img src="旅行1.jpg" alt="Photo 28">
+    <div class="photo-description">Exploring the city together. 👫</div>
+</div>
+<div class="photo-item">
+    <img src="旅行2.jpg" alt="Photo 29">
+    <div class="photo-description">The place from my middle school textbook.</div>
+</div>
+<div class="photo-item">
+    <img src="旅行3.jpg" alt="Photo 30">
+    <div class="photo-description">An amazing feeling.</div>
+</div>
+<div class="photo-item">
+    <img src="旅行4.jpg" alt="Photo 31">
+    <div class="photo-description">🏆 Achievement: Traveling together!</div>
+</div>
+<div class="photo-item">
+    <img src="旅行5.jpg" alt="Photo 32">
+    <div class="photo-description">You're the center of my world.</div>
+</div>
+<div class="photo-item">
+    <img src="旅行6.jpg" alt="Photo 33">
+    <div class="photo-description">The weather is always perfect when I'm with you.</div>
+</div>
+<div class="photo-item">
+    <img src="旅行7.jpg" alt="Photo 34">
+    <div class="photo-description">The weather is always perfect when I'm with you.</div>
+</div>
+<div class="photo-item">
+    <img src="旅行8.jpg" alt="Photo 35">
+    <div class="photo-description">I was so excited to watch Hamilton in person—and with you! Even better, seeing you enjoy it too!</div>
+</div>
+<div class="photo-item">
+    <img src="旅行9.jpg" alt="Photo 36">
+    <div class="photo-description">I admire you so much when you talk.</div>
+</div>
+<div class="photo-item">
+    <img src="旅行10.jpg" alt="Photo 37">
+    <div class="photo-description">Thank you for staying with me, even though you were so tired.</div>
+</div>
+<div class="photo-item">
+    <img src="旅行11.jpg" alt="Photo 38">
+    <div class="photo-description">Maybe we can try drawing each other, like Jack and Rose? 🫣 Though my skills are limited to stick figures, I'll highlight the area between your legs. 😏</div>
+</div>
+<div class="photo-item">
+    <img src="夕阳 (1).jpg" alt="Photo 39">
+    <div class="photo-description">It was dreamy pink, so beautiful. Why didn't you kiss me there?</div>
+</div>
+<div class="photo-item">
+    <img src="夕阳 (2).jpg" alt="Photo 40">
+    <div class="photo-description">Or there?</div>
+</div>
+<div class="photo-item">
+    <img src="夕阳 (3).jpg" alt="Photo 41">
+    <div class="photo-description">Or even there?</div>
+</div>
+<div class="photo-item">
+    <img src="亲密 (1).jpg" alt="Photo 42">
+    <div class="photo-description">I miss your touch.</div>
+</div>
+<div class="photo-item">
+    <img src="亲密 (2).jpg" alt="Photo 43">
+    <div class="photo-description">I miss your laughter.</div>
+</div>
+<div class="photo-item">
+    <img src="亲密 (3).jpg" alt="Photo 44">
+    <div class="photo-description">I miss your kisses.</div>
+</div>
+<div class="photo-item">
+    <img src="亲密 (4).jpg" alt="Photo 45">
+    <div class="photo-description">You look sad... I wish I could be with you forever.</div>
+</div>
+<div class="photo-item">
+    <img src="合照1.jpg" alt="Photo 46">
+    <div class="photo-description">Our first photo during this visit.</div>
+</div>
+<div class="photo-item">
+    <img src="合照2.jpg" alt="Photo 47">
+    <div class="photo-description">Nice weather and sunlight, making me look prettier.</div>
+</div>
+<div class="photo-item">
+    <img src="合照3.jpg" alt="Photo 48">
+    <div class="photo-description">It's just so happy to be with you, no matter what we're doing...</div>
+</div>
+<div class="photo-item">
+    <img src="合照4.jpg" alt="Photo 49">
+    <div class="photo-description">My favorite photo from this visit.</div>
+</div>
+        </div>
+        <div class="envelope" onclick="showLetter()">
+            <img src="envelope.png" alt="信封">
+        </div>
+        <div class="letter-container" id="letter-container">
+            <div class="letter" id="letter">
+                <p>My dearest <span id="name">Evan</span>，</p>
+                <p>❤️Happy Valentine’s Day!❤️</p>
+                <p>I love you and miss you so much. Every second, I think about our previous meetings and look forward to the next time we’re together.</p>
+                <p>Your apartment has become my favorite place—it’s filled with freedom, comfort, and love. Every minute we shared together were amazing. I love the feeling when we hug, touch, whishper, cuddle, and nuzzle. One of my favorite moments during our last visit was when you came back to kiss me goodbye in the morning. Another was when we took turns lying on each other’s laps, caressing each other’s heads—it felt so comforting and intimate 😇. And of course, our sex is always wonderful. I had planned to surprise you with heart-shaped blooms, get dressed up, and whisper, “Let’s have an early Valentine’s Day,”🫣 but my shyness got the better of me. Still, I loved how you made me feel with your hand. I hope you’ll always let me know if anything ever feels uncomfortable for you. I never want you to feel pain. Next time, I hope we can try something new and more dirty talks. 🫦</p>
+                <p>The sweeter the memories, the lonelier I feel when we’re apart. 😿 Sometimes, I feel a little sad when I notice how different things are between us now compared to the early days in Guangzhou. Back then, we texted a lot, gave each other 100% attention, and even shared the same screen while using our phones. You’d look at me, forget everything else, and reply to my messages with so much enthusiasm—it was so sweet, and I wish that passion could last forever. I hope we can find a way to bring that closeness back, even when we’re apart. 💗</p>
+                <p>I’ve always wanted to feel well cared for and treated romantically, as I mentioned at the very beginning. I don’t expect you to be a mind reader, but I hope you can prioritize me, devote a little more time to me each day, show more concern and encourage me when I’m feeling down, and create more quality time together through online activities.It would also mean a lot to me if you could take a moment to text me when you get home after work, so I can feel your presence as soon as I wake up. Even small, thoughtful gestures would make a big difference and make me feel truly cherished.</p>
+                <p>Here are some ideas 💡that would make me happy. These aren’t things you must do, but rather a reference for when you want to do something special or inspiration when you’re in the right situation. I hope they work for you too, so we can share the happiness together. Remember, these are just little ways to make our connection stronger—no pressure, just love. ❤️</p>
+                <p>     > Random drawings/doodles of me.</p>
+                <p>     > Random audio or video messages with something cute or flirty.</p>
+                <p>     > Spelling my name with random objects and sending a picture.</p>
+                <p>     > “I saw/heard this [insert thing] and thought of you,” then sharing it with me.</p>
+                <p>     > Inviting me to join your video games (like through screen sharing) or finding some fun games we can play together.</p>
+                <p>     > Telling me you talked or bragged about me to your friends or family.</p>
+                <p>     > Creating a playlist or a movie list for us to enjoy together.</p>
+                <p>     > Practicing/learning one of my hobbies/interests.</p>
+                <p>I also want you to call me by a special name more often, like “bb,” “babe,” or “Ruby.” “Hey” feels a bit impersonal, and I want to feel uniquely yours. Another thing I’ve been thinking about: I’d love it if you’d ask me for help with things, no matter how small or big. 🥺 I want to feel needed and involved in your life, even in the little moments. I remember noticing you using your mouth to roll up your sleeves during a video call, and while I know it’s not a big deal to you, I’d love to help with those small tasks. It’s my way of showing I care.</p>
+                <p>I want you to know that I’m happy to see how easily satisfied you are with just having me in your life. I’m also really thankful to see you’ve been more focused during our video calls since I mentioned it and that you’ve started sharing more details about your life and work. I honestly appreciate your efforts 💕. Still, I would suggest thinking more deeply and detailedly about what you truly want in a relationship—what your ideal relationship looks like, how you’d like to be treated, and what concrete actions you’d like to take for your partner, how much you think you understand me, and how you imagine I’d react in certain situations, and whether that’s acceptable to you. I’d love for you to think about these things and share them with me someday, whether in a letter or a text 💌. Knowing our needs and being open is the key to helping us understand if we’re truly compatible and guiding us in building a stronger connection.</p>
+
+                <p>I know nothing can be perfect, and these things might feel unfamiliar to you. I also know I’m not always great at speaking up about my feelings and needs in the moment, and I sometimes get down when I’m not 100% good. I tend to wait and calm down, though I might sometimes become a bit passive-aggressive. Then, I look for references from others to see if it’s an actual issue or just overthinking 😶‍🌫️. When I come across perfect examples or extreme advice, it can make me feel jealous or upset, but I know we’re not facing an unsolvable problem. I believe in us and am working on it from my side to make things better for both of us. I know you’ll do the same, and I’m grateful that we’re both growing and learning together. 🫶</p>
+
+                <p>The long distance relationship always requires more efforts and patience than others. I need to feel more confident about moving forward together—both mentally and physically. If things go well this year, I’d like to move to the US as soon as possible. In the meantime, I’ll focus more on myself 🧘‍♀️ —learning, reading, exercising, and exploring the world outside when we can’t be together online. I’ll also keep an eye out for opportunities. The easiest option I know of right now is joining an intern project with a J1 visa through an agency. There might not be a suitable position in your city, but it would still shorten the distance between us significantly. I’m excited about the possibility of being closer to you and building our future together. I deeply believe in our love and hope that we’ll find a way to work out. 👩‍❤️‍💋‍👨</p>
+                <p>I want you to know how much I appreciate you and the efforts you’ve made to make our relationship work. Your love means the world to me, and I’m so grateful to have you in my life.</p>
+                <p>Wishing you all the happiness in the world.</p>
+                <p>I LOVE YOU. ❤️</p>
+                <p>Yours <span id="your-name">Ruby</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 雪花特效 -->
+    <div id="snowflakes"></div>
+
+    <audio id="background-music" autoplay loop>
+        <source src="Passenger - And I Love Her.mp3" type="audio/mpeg">
+        您的浏览器不支持音频播放。
+    </audio>
+
+    <script>
+        // 用户点击页面后播放音乐
+        document.addEventListener('click', () => {
+            const audio = document.getElementById('background-music');
+            audio.play();
+        });
+
+        // 信鸽起飞，雪花飘落，照片展示
+        function startAnimation() {
+            const pigeon = document.querySelector('.pigeon');
+            const photoGallery = document.querySelector('.photo-gallery');
+
+            // 信鸽飞向云层
+            pigeon.style.top = '-100px';
+            pigeon.style.opacity = '0';
+
+            // 雪花特效
+            setInterval(createSnowflake, 100);
+
+            // 照片展示
+            setTimeout(() => {
+                photoGallery.style.opacity = '1';
+                showNextPhoto();
+            }, 1000); // 1秒后开始展示照片
+        }
+
+        // 照片切换逻辑
+        const photos = document.querySelectorAll('.photo-item');
+        let currentPhotoIndex = 0;
+        let timeoutId;
+
+        function showNextPhoto() {
+            if (currentPhotoIndex > 0) {
+                photos[currentPhotoIndex - 1].classList.remove('active');
+            }
+
+            const currentPhotoItem = photos[currentPhotoIndex];
+            currentPhotoItem.classList.add('active');
+            
+            // 确保描述显示
+            const description = currentPhotoItem.querySelector('.photo-description');
+            if (description) {
+                description.style.opacity = '1';
+            }
+
+            currentPhotoIndex++;
+
+            if (currentPhotoIndex < photos.length) {
+                timeoutId = setTimeout(showNextPhoto, 5000); // 每5秒切换一张照片
+            } else {
+                // 最后一张照片展示结束后，显示信封
+                setTimeout(() => {
+                    document.querySelector('.photo-gallery').style.opacity = '0';
+                    document.querySelector('.envelope').classList.add('active');
+                }, 5000); // 5秒后显示信封
+            }
+        }
+
+        // 点击照片切换下一张
+        const photoGallery = document.querySelector('.photo-gallery');
+        photoGallery.addEventListener('click', () => {
+            clearTimeout(timeoutId); // 清除自动切换的定时器
+            showNextPhoto(); // 立即切换到下一张
+        });
+
+        // 雪花特效
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.innerHTML = '❄';
+            snowflake.classList.add('snowflake');
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's'; // 2-5秒
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 20 + 10 + 'px';
+            document.getElementById('snowflakes').appendChild(snowflake);
+
+            // 雪花落地后移除
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
+
+        // 显示多个红心（全屏随机位置出现）
+        function showHearts() {
+            const heartCount = 3; // 每次生成的红心数量
+            const container = document.querySelector('.container');
+
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.classList.add('heart');
+
+                // 红心随机位置
+                heart.style.left = `${Math.random() * 100 - 20}%`; // 水平随机位置
+                heart.style.top = `${Math.random() * 100}%`; // 垂直随机位置
+                heart.style.fontSize = `${Math.random() * 3 + 2}rem`; // 随机大小
+                heart.style.color = `rgba(255, ${Math.random() * 100}, ${Math.random() * 100}, 0.6)`; // 随机颜色，降低透明度
+                heart.style.animationDuration = `${Math.random() * 3 + 2}s`; // 动画速度
+
+                // 将红心添加到容器中
+                container.appendChild(heart);
+
+                // 红心消失后移除
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000); // 5秒后移除
+            }
+
+            // 持续生成红心
+            setTimeout(showHearts, 1500); // 每 1.5 秒生成一次
+        }
+
+        // 显示信件
+        function showLetter() {
+            const envelope = document.querySelector('.envelope');
+            const letterContainer = document.getElementById('letter-container');
+
+            envelope.classList.remove('active');
+            letterContainer.style.display = 'block';
+
+            // 启动红心特效
+            showHearts();
+
+
+        }
+    </script>
+</body>
+</html>
